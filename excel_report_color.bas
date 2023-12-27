@@ -88,6 +88,11 @@ Public Sub colorStringRange()
     Dim rng As Range
     Dim tempStr As String
 
+    'disable all interactive features
+    Application.ScreenUpdating = False
+    Application.EnableEvents = False
+    Application.Calculation = xlCalculationManual
+
     ' Ustaw ws na arkusz 'Color' w ThisWorkbook
     Set ws = ThisWorkbook.Sheets("Color")
 
@@ -100,14 +105,30 @@ Public Sub colorStringRange()
     ' Utwórz słownik wzorców
     createPatternDictionary rng, dict
 
+    'initialise progress bar
+    Application.DisplayStatusBar = True
+    Application.StatusBar = "Coloring strings..."
+
     ' Przejdź przez wszystkie komórki w zaznaczonym zakresie
     For Each cell In Selection
+
+        'update progress bar
+        Application.StatusBar = "Coloring strings... " & cell.Address & " of " & Selection.Rows.Count
+
         tempStr = cell.Value
+
         ' Przejdź przez wszystkie klucze w słowniku
         For Each key In dict.Keys
             ' Koloruj ciąg zgodnie z wzorcem i kolorem
             colorString tempStr, CStr(key), dict(key), cell
         Next key
+
     Next cell
 
+    're-enable interactive features
+    Application.ScreenUpdating = True
+    Application.EnableEvents = True
+    Application.Calculation = xlCalculationAutomatic
+    Application.StatusBar = False
+    
 End Sub
