@@ -26,8 +26,10 @@ End If
 str = LCase(str)
 pattern = LCase(pattern)
 
+'reset indexes
 i = 1
 j = 1
+
 Do While i <= Len(str)
     pos = 0
     For j = 1 To patternLen
