@@ -93,6 +93,9 @@ Public Sub colorStringRange()
     Application.EnableEvents = False
     Application.Calculation = xlCalculationManual
 
+    'add error handling
+    On Error GoTo errHandler
+
     ' Ustaw ws na arkusz 'Color' w ThisWorkbook
     Set ws = ThisWorkbook.Sheets("Color")
 
@@ -124,6 +127,8 @@ Public Sub colorStringRange()
         Next key
 
     Next cell
+
+    errHandler:
 
     're-enable interactive features
     Application.ScreenUpdating = True
